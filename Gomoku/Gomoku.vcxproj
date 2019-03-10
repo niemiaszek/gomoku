@@ -20,12 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="interfejs.cpp" />
+    <ClCompile Include="lista.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="plansza.cpp" />
     <ClCompile Include="pliki.cpp" />
+    <ClCompile Include="rozgrywka.cpp" />
+    <ClCompile Include="stan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interfejs.h" />
+    <ClInclude Include="lista.h" />
+    <ClInclude Include="plansza.h" />
     <ClInclude Include="pliki.h" />
+    <ClInclude Include="rozgrywka.h" />
+    <ClInclude Include="stan.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

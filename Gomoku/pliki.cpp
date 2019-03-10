@@ -4,7 +4,7 @@
 #include <string>
 #include "interfejs.h"
 using namespace std;
-void wyswietlZPliku(string nazwa_pliku) 
+void wyswietlTekstZPliku(string nazwa_pliku)
 {
 	czyscEkran();
 	ifstream plik(nazwa_pliku.c_str());
@@ -16,14 +16,12 @@ void wyswietlZPliku(string nazwa_pliku)
 	else 
 	{
 		string linia;
-		getline(plik, linia);
-		while (!plik.eof())
+		do
 		{
-			cout << linia << endl;
 			getline(plik, linia);
-		}
+			cout << linia << endl;
+		} while (!plik.eof());
 	}
-	cout << "Wcisnij dowolny przycisk, aby przejsc dalej..." << endl;
 	kliknijAbyPrzejscDalej();
 	menuGlowne();
 }
