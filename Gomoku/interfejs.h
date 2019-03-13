@@ -10,5 +10,6 @@ void czyscEkran();
 void kliknijAbyPrzejscDalej();
 void zakonczProgram();
 void menuGraczGracz(int rozmiar, int pod_rzad);
-
+char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz);
+void wyswietlPlansze(char **tab, int rozmiar);
 #endif // INTERFEJS_H

@@ -48,10 +48,16 @@ void graczvsgracz(int rozmiar, int pod_rzad)
 			break;
 		}
 	} 
-	zakonczRozgrywke(tab, rozmiar);
+	zakonczRozgrywke(tab, rozmiar); 
 }
 void zakonczRozgrywke(char **tab, int rozmiar) 
 {
 	kasujPlansze(tab, rozmiar);
 	zakonczProgram();
+}
+char ruchGracza(char **&tab, int rozmiar, char gracz)
+{
+	int aktx = 0, akty = 0;
+	char opcja = poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
+	return opcja;
 }

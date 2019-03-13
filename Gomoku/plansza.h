@@ -3,8 +3,7 @@
 #define PLANSZA_H
 
 void utworzPlansze(char **&tab, int rozmiar);
-void wyswietlPlansze(char **tab, int rozmiar);
 void kasujPlansze(char **tab, int rozmiar);
-char ruchGracza(char **&tab, int rozmiar, char gracz);
-char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz);
+void utworzPomocznicza(char **tab, char **&pomocnicza, int rozmiar);
+
 #endif // PLANSZA_H

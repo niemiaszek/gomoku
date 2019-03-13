@@ -67,7 +67,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 	for (i = 0; i < rozmiar; i++) // sprawdzanie po skosach rownoleglych do skosu ([14][0], [0][14]), lewa strona, od dolu do gory
 	{
 		l = 0;
-		for (j = 0; j <= i; j++)
+		for (j = 0; j < i; j++)
 		{
 			if (j == 0 && tab[i - j][j] != ' ')
 				l++;
@@ -81,7 +81,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 			{
 				if (j == i && i != 0)
 					return 'W';
-				else if (tab[i - 1 - j][j + 1] != tab[i + 1 - j][j - 1])
+				else if (tab[i + 1 - j][j + 1] != tab[i + 1 - j][j - 1])
 					return 'W';
 			}
 		}
@@ -104,7 +104,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 			{
 				if (j == i)
 					return 'W';
-				else if (tab[rozmiar - 1 - j - 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1])
+				else if (tab[rozmiar - 1 - j + 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1])
 					return 'W';
 			}
 		}

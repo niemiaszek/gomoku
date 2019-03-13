@@ -4,7 +4,9 @@
 #include <conio.h>
 #include "pliki.h"
 #include <string>
+#include "plansza.h"
 #include "rozgrywka.h"
+#include <iomanip>
 using namespace std;
 const int MAX = 45;
 HANDLE Kolor;
@@ -66,9 +68,9 @@ void menuPrzedGra()
 	int tryb = pobierzZnak(1, 3);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Ustalmy, ile pol pod rzad wygrywa" << endl;
+	cout << "Ustalmy, ile pol z rzedu wygrywa" << endl;
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Prosze, podaj liczbe pol pod rzad, potrzebna do wygranej..." << endl;
+	cout << "Prosze, podaj liczbe pol z rzedu, potrzebna do wygranej..." << endl;
 	int pod_rzad = pobierzZnak(1, MAX);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
@@ -78,9 +80,9 @@ void menuPrzedGra()
 	int rozmiar = pobierzZnak(pod_rzad, MAX);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 6);
-	cout << "Wybrano tryb nr " << tryb << endl << "Ilosc pol pod rzad: " << pod_rzad << endl << "Rozmiar tablicy: " << rozmiar << endl;
+	cout << "Wybrano tryb nr " << tryb << endl << "Ilosc pol z rzêdu: " << pod_rzad << endl << "Rozmiar planszy: " << rozmiar << endl;
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Jezeli chcesz zmienic swoj wybor, wcisnij 1. Kazda inna spowoduje przejscie do rozgrywki..." << endl;
+	cout << "Jezeli chcesz zmienic swoj wybor kliknij 1. Kazdy inny przycisk spowoduje przejscie do rozgrywki..." << endl;
 	if (_getch() == '1')
 		menuPrzedGra();
 	menuGraczGracz(rozmiar, pod_rzad);
@@ -92,11 +94,11 @@ void menuGraczGracz(int rozmiar, int pod_rzad)
 void menuZapisu(Tura *pierwsza_tura) 
 {
 	czyscEkran();
-	cout << "Czy chcesz zapisac rozgrywke do pliku? Jezeli tak, to wcisnij 1." << endl;
+	cout << "Czy chcesz zapisaæ rozgrywke do pliku? Jezeli tak, to wcisnij 1." << endl;
 	char znak = _getch();
 	if (znak != '1')
 		zakonczProgram();
-	cout << "Prosze, podaj nazwe pliku, do ktorego chcesz zapisac gre (pamietaj o rozszerzeniu .txt)" << endl;
+	cout << "Podaj nazwe pliku, do ktorego chcesz zapisac gre (pamietaj o rozszerzeniu .txt)" << endl;
 	string nazwa_pliku;
 	getline(cin, nazwa_pliku);
 	//zapiszGreDoPliku(nazwa_pliku, pierwsza_tura);
@@ -111,7 +113,7 @@ int pobierzZnak(int zakres_dolny, int zakres_gorny)
 	while (cin.fail() || znak < zakres_dolny || znak > zakres_gorny) 
 	{
 		SetConsoleTextAttribute(Kolor, 4);
-		cout << "Podano bledny znak! Prosze, sproboj ponownie podaz znak z przedzialu: ( " << zakres_dolny << ", " << zakres_gorny << " )\n";
+		cout << "Podano bledny! Prosze, sproboj ponownie podaz znak z przedzialu: ( " << zakres_dolny << ", " << zakres_gorny << " )\n";
 		cin.clear();
 		cin.ignore(1000, '\n');
 		cin.sync();
@@ -135,11 +137,90 @@ void zakonczProgram()
 	SetConsoleTextAttribute(Kolor, 4);
 	cout << "MENU KONCOWE" << endl << endl;
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Dziekuje za uzywanie mojego programu." << endl;
+	cout << "Dziekuje za uzywanie mojego programu" << endl;
 	cout << "Jezeli chcialbys znowu zagrac w Gomoku, wcisnij 1" << endl;
 	cout << "Kazdy inny przycisk spowoduje zamkniecie programu" << endl;
 	SetConsoleTextAttribute(Kolor, 7);
 	cout << "Wcisnij przycisk..." << endl;
 	if (_getch() == '1')
 		menuGlowne();
+}
+char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz)
+{
+	czyscEkran();
+	char **pomocnicza;
+	utworzPomocznicza(tab, pomocnicza, rozmiar);
+	if (tab[aktx][akty] == ' ')
+		pomocnicza[aktx][akty] = gracz;
+	if (tab[aktx][akty] == 'x' || tab[aktx][akty] == 'o')
+		pomocnicza[aktx][akty] = '#';
+	wyswietlPlansze(pomocnicza, rozmiar);
+	SetConsoleTextAttribute(Kolor, 2);
+	cout << endl << "Sterowanie" << setw(3) << ' ' << "Esc - Zakoncz rozgrywke"  << setw(3) << ' ' << "Strzalki - Poruszanie kursora"  << setw(3) << ' ' << "Enter - Zatwierdz ruch" << endl;
+	kasujPlansze(pomocnicza, rozmiar);
+	int polecenie = _getch();
+	if (polecenie == 27)
+		return 'E';
+	if (polecenie == 0 || polecenie == 224)
+	{
+		switch (_getch())
+		{
+		case 72: //strza³ka w gore
+			if (aktx > 0)
+				aktx--;
+			break;
+		case 80: //strza³ka w dol
+			if (aktx < rozmiar - 1)
+				aktx++;
+			break;
+		case 77: //strza³ka w prawo
+			if (akty < rozmiar - 1)
+				akty++;
+			break;
+		case 75: //strza³ka w lewo
+			if (akty > 0)
+				akty--;
+			break;
+		}
+		poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
+	}
+	else if (polecenie == 13)
+	{
+		if (tab[aktx][akty] == ' ')
+			tab[aktx][akty] = gracz;
+		else
+			poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
+	}
+}
+void wyswietlPlansze(char **tab, int rozmiar)
+{
+	SetConsoleTextAttribute(Kolor, 6);
+	for (int i = 0; i < rozmiar + 2; i++)
+		cout << setw(2) << '#';
+	cout << endl;
+	for (int i = 0; i < rozmiar; i++)
+	{
+		cout << setw(2) << '#';
+		for (int j = 0; j < rozmiar; j++)
+		{
+			if (tab[i][j] == '#')
+				SetConsoleTextAttribute(Kolor, 4);
+			if (tab[i][j] == 'o')
+				SetConsoleTextAttribute(Kolor, 7);
+			if (tab[i][j] == 'x')
+				SetConsoleTextAttribute(Kolor, 8);
+			cout << setw(2) << tab[i][j];
+			if (tab[i][j+1] == '#' && j != rozmiar - 1)
+				SetConsoleTextAttribute(Kolor, 4);
+			if (tab[i][j+1] == 'o' && j != rozmiar - 1)
+				SetConsoleTextAttribute(Kolor, 7);
+			if (tab[i][j+1] == 'x' && j != rozmiar - 1)
+				SetConsoleTextAttribute(Kolor, 8);
+		}
+		SetConsoleTextAttribute(Kolor, 6);
+		cout << setw(2) << '#' << endl;
+	}
+	for (int i = 0; i < rozmiar + 2; i++)
+		cout << setw(2) << '#';
+	cout << endl;
 }
