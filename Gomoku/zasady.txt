@@ -1,7 +1,5 @@
-Gomoku toczy siê na planszy do go zwanej goban, o rozmiarach 15x15. 
-Niekiedy u¿ywane s¹ wiêksze plansze (np. 19x19). 
-Gracze k³ad¹ na planszy na przemian po jednym swoim kamieniu (gracz rozpoczynaj¹cy grê u¿ywa kamieni czarnych, drugi bia³ych).
-W najprostszej wersji celem ka¿dego z graczy jest u³o¿enie nieprzerwanego ³añcucha dok³adnie piêciu kamieni w³asnego koloru (w poziomie, pionie lub po przek¹tnej).
-Ustawienie wiêcej ni¿ 5 kamieni w linii, zwane overline, nie daje wygranej. 
-Niestety, w tej wersji gry istnieje strategia wygrywaj¹ca dla rozpoczynaj¹cego, to znaczy, ¿e wykonuj¹c odpowiednie ruchy powinien zawsze wygraæ. 
-Dlatego w praktyce turniejowej modyfikuje siê zasady wykonywania kilku pierwszych ruchów.
+Gomoku toczy sie na planszy do go zwanej goban, o rozmiarach 15x15. 
+Niekiedy uzywane sa wieksze plansze (np. 19x19). 
+Gracze klada na planszy na przemian po jednym swoim kamieniu (gracz rozpoczynajacy gre uzywa kamieni czarnych, drugi bialych).
+W najprostszej wersji celem kazdego z graczy jest ulozenie nieprzerwanego lancucha dokladnie pieciu kamieni wlasnego koloru (w poziomie, pionie lub po przekatnej).
+Ustawienie wiecej niz 5 kamieni w linii, zwane overline, nie daje wygranej. 

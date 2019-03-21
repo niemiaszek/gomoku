@@ -4,7 +4,7 @@
 #include <conio.h>
 #include "pliki.h"
 #include <string>
-#include "plansza.h"
+#include "plansza.h" 
 #include "rozgrywka.h"
 #include <iomanip>
 using namespace std;
@@ -19,7 +19,7 @@ void menuStart()
 	SetConsoleTextAttribute(Kolor, 6);
 	cout << "GOMOKU" << endl << endl;
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Gra powstala jako projekt na zaliczenie Zasad Programowania Strukturalnego 2 i jest dostepny na GitHub pod adresem:" << endl;
+	cout << "Gra powstala jako projekt na zaliczenie Zasad Programowania Strukturalnego 2 i jest dostepna na GitHub pod adresem:" << endl;
 	SetConsoleTextAttribute(Kolor, 6);
 	cout << "www.github.com/niemiaszek/gomoku" << endl << endl;
 	kliknijAbyPrzejscDalej();
@@ -39,10 +39,12 @@ void menuGlowne()
 	cout << "4. Zakoncz gre" << endl;
 	switch (pobierzZnak(1, 4))
 	{
-	case 1: 
+	case 1:
+		SetConsoleTextAttribute(Kolor, 6);
 		wyswietlTekstZPliku("historia.txt");
 		break;
 	case 2:
+		SetConsoleTextAttribute(Kolor, 6);
 		wyswietlTekstZPliku("zasady.txt");
 		break;
 	case 3:
@@ -66,6 +68,16 @@ void menuPrzedGra()
 	cout << "2. Gracz vs Komputer" << endl;
 	cout << "3. Komputer vs Komputer" << endl << endl;
 	int tryb = pobierzZnak(1, 3);
+	int trudnosc;
+	if (tryb == 2 || tryb == 3) 
+	{
+		czyscEkran();
+		SetConsoleTextAttribute(Kolor, 3);
+		cout << "Wybierz poziom trudonosci komputera" << endl;
+		SetConsoleTextAttribute(Kolor, 2);
+		cout << "1. Latwy" << endl;
+		trudnosc = pobierzZnak(1, 1);
+	}
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
 	cout << "Ustalmy, ile pol z rzedu wygrywa" << endl;
@@ -80,16 +92,23 @@ void menuPrzedGra()
 	int rozmiar = pobierzZnak(pod_rzad, MAX);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 6);
-	cout << "Wybrano tryb nr " << tryb << endl << "Ilosc pol z rzêdu: " << pod_rzad << endl << "Rozmiar planszy: " << rozmiar << endl;
+	cout << "Wybrano tryb nr " << tryb << endl << "Ilosc pol z rzedu: " << pod_rzad << endl << "Rozmiar planszy: " << rozmiar << endl;
 	SetConsoleTextAttribute(Kolor, 7);
 	cout << "Jezeli chcesz zmienic swoj wybor kliknij 1. Kazdy inny przycisk spowoduje przejscie do rozgrywki..." << endl;
 	if (_getch() == '1')
 		menuPrzedGra();
-	menuGraczGracz(rozmiar, pod_rzad);
-}
-void menuGraczGracz(int rozmiar, int pod_rzad) 
-{
-	graczvsgracz(rozmiar, pod_rzad);
+	switch (tryb) 
+	{
+	case 1:
+		graczvsgracz(rozmiar, pod_rzad);
+		break;
+	case 2:
+		graczvskomputer(rozmiar, pod_rzad, trudnosc);
+		break;
+	case 3:
+		komputervskomputer(rozmiar, pod_rzad, trudnosc);
+		break;
+	}
 }
 void menuZapisu(Tura *pierwsza_tura) 
 {
@@ -158,7 +177,7 @@ char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gr
 	SetConsoleTextAttribute(Kolor, 2);
 	cout << endl << "Sterowanie" << setw(3) << ' ' << "Esc - Zakoncz rozgrywke"  << setw(3) << ' ' << "Strzalki - Poruszanie kursora"  << setw(3) << ' ' << "Enter - Zatwierdz ruch" << endl;
 	kasujPlansze(pomocnicza, rozmiar);
-	int polecenie = _getch();
+	int polecenie = _getch();	
 	if (polecenie == 27)
 		return 'E';
 	if (polecenie == 0 || polecenie == 224)
@@ -182,15 +201,16 @@ char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gr
 				akty--;
 			break;
 		}
-		poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
 	}
 	else if (polecenie == 13)
 	{
-		if (tab[aktx][akty] == ' ')
+		if (tab[aktx][akty] == ' ') 
+		{
 			tab[aktx][akty] = gracz;
-		else
-			poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
+			return 'Z';
+		}
 	}
+	poruszaniePoPlanszy(tab, rozmiar, aktx, akty, gracz);
 }
 void wyswietlPlansze(char **tab, int rozmiar)
 {
@@ -223,4 +243,19 @@ void wyswietlPlansze(char **tab, int rozmiar)
 	for (int i = 0; i < rozmiar + 2; i++)
 		cout << setw(2) << '#';
 	cout << endl;
+}
+void komunikatBladOtwarciaPliku() 
+{
+	SetConsoleTextAttribute(Kolor, 4);
+	cout << "Blad otwarcia pliku!" << endl;
+	kliknijAbyPrzejscDalej();
+}
+void komunikatRezultat(char rezultat) 
+{
+	SetConsoleTextAttribute(Kolor, 6);
+	if (rezultat != 'R')
+		cout << "Wygrywa gracz " << rezultat << '!' << endl;
+	if (rezultat == 'R')
+		cout << "Remis!" << endl;
+	kliknijAbyPrzejscDalej();
 }

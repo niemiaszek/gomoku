@@ -10,8 +10,8 @@ void wyswietlTekstZPliku(string nazwa_pliku)
 	ifstream plik(nazwa_pliku.c_str());
 	if (!plik.good()) 
 	{
-		cout << "Blad otworzenia pliku " << endl;
-		return;
+		komunikatBladOtwarciaPliku();
+		menuGlowne();
 	}
 	else 
 	{

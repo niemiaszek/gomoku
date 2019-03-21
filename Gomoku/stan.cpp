@@ -23,7 +23,7 @@ char sprawdzPoziom(char **tab, int rozmiar, int pod_rzad)
 				l = 0; // zerowanie licznika, bo taka sytuacja zachodzi, kiedy pole jest niezmienione lub zajete przez innego gracza
 			if (j > 0 && l == 0 && tab[i][j] != ' ') // sprawdzanie, czy aktualne pole jest w ogole zajete przez jakiegos gracza
 				l++;
-			if (l == pod_rzad) // sprawdzanie, czy gracz zajal 5 pol pod rzad
+			if (l == pod_rzad) // sprawdzanie, czy gracz zajal liczbe pol pod rzad potrzebna do wygranej
 			{
 				if (j == rozmiar - 1) // warunek brzegowy, kiedy za aktualnym polem nie ma juz zadnego pola, ktore moglby zajac dany gracz przekraczajac liczbe 5 pol i w ten sposob niespelniajac warunku koniecznego do granej (dokladnie 5 pol pod rzad)
 					return 'W'; // zwracanie napisu "wygrana", ktory jest wykorzystywany pozniej
@@ -67,7 +67,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 	for (i = 0; i < rozmiar; i++) // sprawdzanie po skosach rownoleglych do skosu ([14][0], [0][14]), lewa strona, od dolu do gory
 	{
 		l = 0;
-		for (j = 0; j < i; j++)
+		for (j = 0; j <= i; j++)
 		{
 			if (j == 0 && tab[i - j][j] != ' ')
 				l++;
@@ -104,7 +104,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 			{
 				if (j == i)
 					return 'W';
-				else if (tab[rozmiar - 1 - j + 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1])
+				else if (tab[rozmiar - 1 - j - 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1])
 					return 'W';
 			}
 		}
@@ -148,7 +148,7 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 			{
 				if (i == j)
 					return 'W';
-				else if (tab[i][j + i + 1] != tab[i][j + i - 1])
+				else if (tab[i + 1][j + i + 1] != tab[i - 1][j + i - 1])
 					return 'W';
 			}
 		}

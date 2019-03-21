@@ -6,6 +6,12 @@ struct Tura
 	char **plansza;
 	Tura *next;
 };
+struct Gracz 
+{
+	char gracz;
+	int x;
+	int y;
+};
 void dodajDoListy(Tura *&aktualna_tura, char **tab);
 void usunListe(Tura *&pierwsza_tura);
 #endif // !LISTA_H

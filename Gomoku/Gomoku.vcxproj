@@ -26,6 +26,7 @@
     <ClCompile Include="pliki.cpp" />
     <ClCompile Include="rozgrywka.cpp" />
     <ClCompile Include="stan.cpp" />
+    <ClCompile Include="sztuczna_inteligencja.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interfejs.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="pliki.h" />
     <ClInclude Include="rozgrywka.h" />
     <ClInclude Include="stan.h" />
+    <ClInclude Include="sztuczna_inteligencja.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
