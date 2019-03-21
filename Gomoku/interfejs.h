@@ -12,4 +12,6 @@ void zakonczProgram();
 void menuGraczGracz(int rozmiar, int pod_rzad);
 char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz);
 void wyswietlPlansze(char **tab, int rozmiar);
+void komunikatBladOtwarciaPliku();
+void komunikatRezultat(char rezultat);
 #endif // INTERFEJS_H
