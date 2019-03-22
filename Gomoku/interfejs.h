@@ -9,7 +9,6 @@ int pobierzZnak(int zakres_dolny, int zakres_gorny);
 void czyscEkran();
 void kliknijAbyPrzejscDalej();
 void zakonczProgram();
-void menuGraczGracz(int rozmiar, int pod_rzad);
 char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz);
 void wyswietlPlansze(char **tab, int rozmiar);
 void komunikatBladOtwarciaPliku();

@@ -12,6 +12,12 @@ struct Gracz
 	int x;
 	int y;
 };
+struct Ruch 
+{
+	int score;
+	int x;
+	int y;
+};
 void dodajDoListy(Tura *&aktualna_tura, char **tab);
 void usunListe(Tura *&pierwsza_tura);
 #endif // !LISTA_H
