@@ -257,5 +257,11 @@ void komunikatRezultat(char rezultat)
 		cout << "Wygrywa gracz " << rezultat << '!' << endl;
 	if (rezultat == 'R')
 		cout << "Remis!" << endl;
-	kliknijAbyPrzejscDalej();
+	SetConsoleTextAttribute(Kolor, 2);
+	cout << "Aby zakonczyc rozgrywke wcisnij Escape" << endl;
+	int polecenie = _getch();	
+	while (polecenie != 27)
+	{
+		polecenie = _getch();
+	}
 }
