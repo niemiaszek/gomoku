@@ -14,10 +14,14 @@ struct Gracz
 };
 struct Ruch 
 {
-	int score;
 	int x;
 	int y;
+	Ruch *next;
 };
 void dodajDoListy(Tura *&aktualna_tura, char **tab);
 void usunListe(Tura *&pierwsza_tura);
+void usunListe(Ruch *&wykonywalne_ruchy);
+void pobierzWykonywalneRuchy(Ruch *&wykonywalne_ruchy, char **tab, int rozmiar);
+void wypiszWykonywalneRuchy(Ruch *wykonywalne_ruchy);
+void usunRuch(Ruch *&wykonywalne_ruchy, int x, int y);
 #endif // !LISTA_H

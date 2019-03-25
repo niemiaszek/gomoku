@@ -1,16 +1,23 @@
 #include "stan.h"
 using namespace std;
-char sprawdzStan(char **tab, int rozmiar, int pod_rzad) 
+#include <cmath>
+char sprawdzStan(char **tab, int rozmiar, int pod_rzad, int &suma) 
 {
-	if (sprawdzPion(tab, rozmiar, pod_rzad) == 'W' || sprawdzPoziom(tab, rozmiar, pod_rzad) == 'W' || sprawdzUkosy(tab, rozmiar, pod_rzad) == 'W' || SprawdzRemis(tab, rozmiar) == 'W')
-		return 'W';
-	else if(SprawdzRemis(tab, rozmiar) == 'R')
-		return 'R';
-	else return 'N';
+	suma = 0;
+	char rezultat = 'N';
+	char a = sprawdzPion(tab, rozmiar, pod_rzad, suma);
+	char b = sprawdzPoziom(tab, rozmiar, pod_rzad, suma);
+	char c = sprawdzUkosy(tab, rozmiar, pod_rzad, suma);
+	if (a == 'W' || b == 'W' || c == 'W')
+		rezultat = 'W';
+	else if (SprawdzRemis(tab, rozmiar) == 'R')
+		rezultat= 'R';
+	return rezultat;
 }
-char sprawdzPoziom(char **tab, int rozmiar, int pod_rzad) 
+char sprawdzPoziom(char **tab, int rozmiar, int pod_rzad, int &suma) 
 {
 	int i, j, l; // l jako licznik pol zajetych przez danego gracza pod rzad
+	char rezultat = 'N';
 	for (i = 0; i < rozmiar; i++) { // sprawdzanie w kazdym wierszu tablicy
 		l = 0;
 		for (j = 0; j < rozmiar; j++)
@@ -23,20 +30,29 @@ char sprawdzPoziom(char **tab, int rozmiar, int pod_rzad)
 				l = 0; // zerowanie licznika, bo taka sytuacja zachodzi, kiedy pole jest niezmienione lub zajete przez innego gracza
 			if (j > 0 && l == 0 && tab[i][j] != ' ') // sprawdzanie, czy aktualne pole jest w ogole zajete przez jakiegos gracza
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad) // sprawdzanie, czy gracz zajal liczbe pol pod rzad potrzebna do wygranej
 			{
-				if (j == rozmiar - 1) // warunek brzegowy, kiedy za aktualnym polem nie ma juz zadnego pola, ktore moglby zajac dany gracz przekraczajac liczbe 5 pol i w ten sposob niespelniajac warunku koniecznego do granej (dokladnie 5 pol pod rzad)
-					return 'W'; // zwracanie napisu "wygrana", ktory jest wykorzystywany pozniej
-				else if (tab[i][j + 1] != tab[i][j - 1]) // sprawdzanie, czy pole za akutalnym jest rowne polu po aktualnym, zeby wykluczyc sytuacje, w ktorej gracz osiagnal wiecej niz 5 w rzedzie
-					return 'W';
+				if (j == rozmiar - 1) { // warunek brzegowy, kiedy za aktualnym polem nie ma juz zadnego pola, ktore moglby zajac dany gracz przekraczajac liczbe 5 pol i w ten sposob niespelniajac warunku koniecznego do granej (dokladnie 5 pol pod rzad)
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				} // zwracanie napisu "wygrana", ktory jest wykorzystywany pozniej
+				else if (tab[i][j + 1] != tab[i][j - 1]) { // sprawdzanie, czy pole za akutalnym jest rowne polu po aktualnym, zeby wykluczyc sytuacje, w ktorej gracz osiagnal wiecej niz 5 w rzedzie
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
 			}
 		}
 	}
-	return 'N';
+	return rezultat;
 }
-char sprawdzPion(char **tab, int rozmiar, int pod_rzad) 
+char sprawdzPion(char **tab, int rozmiar, int pod_rzad, int &suma) 
 {
-	int i, j, l;
+	int i, j, l; 
+	char rezultat = 'N';
 	for (j = 0; j < rozmiar; j++) // sprawdzanie w kazdej kolumnie tablicy
 	{ 
 		l = 0;
@@ -50,20 +66,29 @@ char sprawdzPion(char **tab, int rozmiar, int pod_rzad)
 				l = 0;
 			if (i > 0 && l == 0 && tab[i][j] != ' ')
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad)
 			{
-				if (i == rozmiar - 1)
-					return 'W';
-				else if (tab[i + 1][j] != tab[i - 1][j])
-					return 'W';
+				if (i == rozmiar - 1) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
+				else if (tab[i + 1][j] != tab[i - 1][j]) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
 			}
 		}
 	}
-	return 'N';
+	return rezultat;
 }
-char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad) 
+char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad, int &suma) 
 {
 	int i, j, l;
+	char rezultat = 'N';
 	for (i = 0; i < rozmiar; i++) // sprawdzanie po skosach rownoleglych do skosu ([14][0], [0][14]), lewa strona, od dolu do gory
 	{
 		l = 0;
@@ -77,12 +102,20 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 				l = 0;
 			if (j > 0 && l == 0 && tab[i - j][j] != ' ')
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad)
 			{
-				if (j == i && i != 0)
-					return 'W';
-				else if (tab[i + 1 - j][j + 1] != tab[i + 1 - j][j - 1])
-					return 'W';
+				if (j == i && i != 0) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
+				else if (tab[i + 1 - j][j - 1] != tab[i - 1 - j][j + 1]) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
 			}
 		}
 	}
@@ -100,12 +133,20 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 				l = 0;
 			if (j < rozmiar - 1 && l == 0 && tab[rozmiar - 1 - j + i][j] != ' ')
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad)
 			{
-				if (j == i)
-					return 'W';
-				else if (tab[rozmiar - 1 - j - 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1])
-					return 'W';
+				if (j == i) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
+				else if (tab[rozmiar - 1 - j - 1 + i][j + 1] != tab[rozmiar - 1 - j + 1 + i][j - 1]) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
 			}
 		}
 	}
@@ -122,12 +163,19 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 				l = 0;
 			if (j > 0 && l == 0 && tab[i + j][j] != ' ')
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad)
 			{
-				if ((i+j+1)==rozmiar)
-					return 'W';
-				else if (tab[i + j + 1][j + 1] != tab[i + j - 1][j - 1])
-					return 'W';
+				if ((i + j + 1) == rozmiar) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
+				else if (tab[i + j + 1][j + 1] != tab[i + j - 1][j - 1]) {
+					suma += pow(l, l);
+					rezultat = 'W';
+				}
 			}
 		}
 	}
@@ -144,16 +192,23 @@ char sprawdzUkosy(char **tab, int rozmiar, int pod_rzad)
 				l = 0;
 			if (i > 0 && l == 0 && tab[i][j + i] != ' ')
 				l++;
+			if (l > 0 && l < pod_rzad)
+				suma += pow(l, l);
 			if (l == pod_rzad)
 			{
-				if (i == j)
-					return 'W';
-				else if (tab[i + 1][j + i + 1] != tab[i - 1][j + i - 1])
-					return 'W';
+				if (j + i + 1 == rozmiar) {
+					suma += pow(l, l);
+					rezultat = 'W';
+					break;
+				}
+				else if (tab[i + 1][j + i + 1] != tab[i - 1][j + i - 1]) {
+					suma += pow(l, l);
+					rezultat = 'W';
+				}
 			}
 		}
 	}
-	return 'N';
+	return rezultat;
 }
 char SprawdzRemis(char **tab, int rozmiar) 
 {

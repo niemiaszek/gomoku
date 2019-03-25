@@ -76,7 +76,8 @@ void menuPrzedGra()
 		cout << "Wybierz poziom trudonosci komputera" << endl;
 		SetConsoleTextAttribute(Kolor, 2);
 		cout << "1. Latwy" << endl;
-		trudnosc = pobierzZnak(1, 1);
+		cout << "2. Sredni" << endl;
+		trudnosc = pobierzZnak(1, 2);
 	}
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
