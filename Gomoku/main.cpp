@@ -1,5 +1,8 @@
 #include "interfejs.h"
-int main() 
+#include <ctime>
+#include <cstdlib>
+int main()
 {
+	srand(time(NULL));
 	menuStart();
 }

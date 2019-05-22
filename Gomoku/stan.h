@@ -1,6 +1,7 @@
 #pragma once
 #ifndef STAN_H
 #define STAN_H
+int ocenaStanu(char** tab, int rozmiar, int pod_rzad, char gracz);
 char sprawdzStan(char **tab, int rozmiar, int pod_rzad, int &suma);
 char sprawdzPion(char **tab, int rozmiar, int pod_rzad, int &suma);
 char sprawdzPoziom(char **tab, int rozmiar, int pod_rzad, int &suma);

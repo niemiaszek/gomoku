@@ -5,6 +5,7 @@
 #include "lista.h"
 #include "stan.h"
 #include "sztuczna_inteligencja.h"
+#include <chrono>
 using namespace std;
 void graczvsgracz(int rozmiar, int pod_rzad)
 {
@@ -32,7 +33,7 @@ void graczvsgracz(int rozmiar, int pod_rzad)
 			komunikatRezultat('R');
 			break;
 		}
-		cout << suma << endl;
+		cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
 		kliknijAbyPrzejscDalej();
 		char o = ruchGracza(tab, rozmiar, 'o', aktx, akty);
 		if (o == 'E')
@@ -49,7 +50,7 @@ void graczvsgracz(int rozmiar, int pod_rzad)
 			komunikatRezultat('R');
 			break;
 		}
-		cout << suma << endl;
+		cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
 		kliknijAbyPrzejscDalej();
 	}
 	zakonczRozgrywke(tab, rozmiar);
@@ -85,6 +86,7 @@ void graczvskomputer(int rozmiar, int pod_rzad, int trudnosc)
 			komunikatRezultat('R');
 			break;
 		}
+		auto start = chrono::steady_clock::now();
 		switch (trudnosc) {
 		case 1:
 			latwy(tab, rozmiar, pod_rzad, 'o', 'x', Ruchy);
@@ -92,7 +94,12 @@ void graczvskomputer(int rozmiar, int pod_rzad, int trudnosc)
 		case 2:
 			sredni(tab, rozmiar, pod_rzad, 'o', 'x', Ruchy);
 			break;
+		case 3:
+			trudny(tab, rozmiar, pod_rzad, 'o', 'x', 10);
+			break;
 		}
+		auto end = chrono::steady_clock::now();
+		cout << "Ruch komputera trwal: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " milisekund" << "\n";
 		wyswietlPlansze(tab, rozmiar);
 		//wypiszWykonywalneRuchy(Ruchy);
 		kliknijAbyPrzejscDalej();
@@ -128,6 +135,7 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 	kliknijAbyPrzejscDalej();
 	while (true) {
 		czyscEkran();
+		auto start = chrono::steady_clock::now();
 		switch (trudnosc) {
 		case 1:
 			latwy(tab, rozmiar, pod_rzad, 'x', 'o', Ruchy);
@@ -135,7 +143,12 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 		case 2:
 			sredni(tab, rozmiar, pod_rzad, 'x', 'o', Ruchy);
 			break;
+		case 3:
+			trudny(tab, rozmiar, pod_rzad, 'x', 'o', 10);
+			break;
 		}
+		auto end = chrono::steady_clock::now();
+		cout << "Ruch komputera trwal: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " milisekund" << "\n";
 		wyswietlPlansze(tab, rozmiar);
 		kliknijAbyPrzejscDalej();
 		//dodajDoListy(aktualna_tura, tab);
@@ -152,6 +165,7 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 			break;
 		}
 		czyscEkran();
+		auto start1 = chrono::steady_clock::now();
 		switch (trudnosc) {
 		case 1:
 			latwy(tab, rozmiar, pod_rzad, 'o', 'x', Ruchy);
@@ -159,7 +173,12 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 		case 2:
 			sredni(tab, rozmiar, pod_rzad, 'o', 'x', Ruchy);
 			break;
+		case 3:
+			trudny(tab, rozmiar, pod_rzad, 'o', 'x', 10);
+			break;
 		}
+		auto end1 = chrono::steady_clock::now();
+		cout << "Ruch komputera trwal: " << chrono::duration_cast<chrono::milliseconds>(end1 - start1).count() << " milisekund" << "\n";
 		wyswietlPlansze(tab, rozmiar);
 		kliknijAbyPrzejscDalej();
 		//dodajDoListy(aktualna_tura, tab);

@@ -8,7 +8,7 @@
 #include "rozgrywka.h"
 #include <iomanip>
 using namespace std;
-const int MAX = 45;
+const int MAX = 55;
 HANDLE Kolor;
 
 void menuStart() 
@@ -17,11 +17,11 @@ void menuStart()
 	SetConsoleTextAttribute(Kolor, 3);
 	cout << "WITAJ W GRZE ";
 	SetConsoleTextAttribute(Kolor, 6);
-	cout << "GOMOKU" << endl << endl;
+	cout << "GOMOKU" << "\n" << "\n";
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Gra powstala jako projekt na zaliczenie Zasad Programowania Strukturalnego 2 i jest dostepna na GitHub pod adresem:" << endl;
+	cout << "Gra powstala jako projekt na zaliczenie Zasad Programowania Strukturalnego 2 i jest dostepna na GitHub pod adresem:" << "\n";
 	SetConsoleTextAttribute(Kolor, 6);
-	cout << "www.github.com/niemiaszek/gomoku" << endl << endl;
+	cout << "www.github.com/niemiaszek/gomoku" << "\n" << "\n";
 	kliknijAbyPrzejscDalej();
 	menuGlowne();
 }
@@ -29,14 +29,14 @@ void menuGlowne()
 {
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 4);
-	cout << "GLOWNE MENU" << endl << endl;
+	cout << "GLOWNE MENU" << "\n" << "\n";
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Wybierz opcje wpisujac indeks opcji z klawiatury i zatwierdzajac przez enter:" << endl;
+	cout << "Wybierz opcje wpisujac indeks opcji z klawiatury i zatwierdzajac przez enter:" << "\n";
 	SetConsoleTextAttribute(Kolor, 2);
-	cout << "1. Historia Gomoku" << endl;
-	cout << "2. Zasady Gomoku wykorzystywane w tej grze" << endl;
-	cout << "3. Rozpoczecie gry" << endl;
-	cout << "4. Zakoncz gre" << endl;
+	cout << "1. Historia Gomoku" << "\n";
+	cout << "2. Zasady Gomoku wykorzystywane w tej grze" << "\n";
+	cout << "3. Rozpoczecie gry" << "\n";
+	cout << "4. Zakoncz gre" << "\n";
 	switch (pobierzZnak(1, 4))
 	{
 	case 1:
@@ -60,42 +60,43 @@ void menuPrzedGra()
 {
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 4);
-	cout << "MENU PRZED GRA" << endl << endl;
+	cout << "MENU PRZED GRA" << "\n" << "\n";
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Wybierz tryb rozgrywki, tak jak w poprzednim menu:" << endl;
+	cout << "Wybierz tryb rozgrywki, tak jak w poprzednim menu:" << "\n";
 	SetConsoleTextAttribute(Kolor, 2);
-	cout << "1. Gracz vs Gracz" << endl;
-	cout << "2. Gracz vs Komputer" << endl;
-	cout << "3. Komputer vs Komputer" << endl << endl;
+	cout << "1. Gracz vs Gracz" << "\n";
+	cout << "2. Gracz vs Komputer" << "\n";
+	cout << "3. Komputer vs Komputer" << "\n" << "\n";
 	int tryb = pobierzZnak(1, 3);
 	int trudnosc;
 	if (tryb == 2 || tryb == 3) 
 	{
 		czyscEkran();
 		SetConsoleTextAttribute(Kolor, 3);
-		cout << "Wybierz poziom trudonosci komputera" << endl;
+		cout << "Wybierz poziom trudonosci komputera" << "\n";
 		SetConsoleTextAttribute(Kolor, 2);
-		cout << "1. Latwy" << endl;
-		cout << "2. Sredni" << endl;
-		trudnosc = pobierzZnak(1, 2);
+		cout << "1. Latwy" << "\n";
+		cout << "2. Sredni" << "\n";
+		cout << "3. Trudny" << "\n";
+		trudnosc = pobierzZnak(1, 3);
 	}
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Ustalmy, ile pol z rzedu wygrywa" << endl;
+	cout << "Ustalmy, ile pol z rzedu wygrywa" << "\n";
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Prosze, podaj liczbe pol z rzedu, potrzebna do wygranej..." << endl;
+	cout << "Prosze, podaj liczbe pol z rzedu, potrzebna do wygranej..." << "\n";
 	int pod_rzad = pobierzZnak(1, MAX);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Przed rozpoczeciem gry nalezy ustalic rozmiar planszy" << endl;
+	cout << "Przed rozpoczeciem gry nalezy ustalic rozmiar planszy" << "\n";
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Prosze, podaj rozmiar kwadratowej planszy..." << endl;
+	cout << "Prosze, podaj rozmiar kwadratowej planszy..." << "\n";
 	int rozmiar = pobierzZnak(pod_rzad, MAX);
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 6);
-	cout << "Wybrano tryb nr " << tryb << endl << "Ilosc pol z rzedu: " << pod_rzad << endl << "Rozmiar planszy: " << rozmiar << endl;
+	cout << "Wybrano tryb nr " << tryb << "\n" << "Ilosc pol z rzedu: " << pod_rzad << "\n" << "Rozmiar planszy: " << rozmiar << "\n";
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Jezeli chcesz zmienic swoj wybor kliknij 1. Kazdy inny przycisk spowoduje przejscie do rozgrywki..." << endl;
+	cout << "Jezeli chcesz zmienic swoj wybor kliknij 1. Kazdy inny przycisk spowoduje przejscie do rozgrywki..." << "\n";
 	if (_getch() == '1')
 		menuPrzedGra();
 	switch (tryb) 
@@ -114,12 +115,12 @@ void menuPrzedGra()
 void menuZapisu(Tura *pierwsza_tura) 
 {
 	czyscEkran();
-	cout << "Czy chcesz zapisaæ rozgrywke do pliku? Jezeli tak, to wcisnij 1." << endl;
+	cout << "Czy chcesz zapisaæ rozgrywke do pliku? Jezeli tak, to wcisnij 1." << "\n";
 	char znak = _getch();
 	if (znak != '1')
 		zakonczProgram();
-	cout << "Podaj nazwe pliku, do ktorego chcesz zapisac gre (pamietaj o rozszerzeniu .txt)" << endl;
-	string nazwa_pliku;
+	cout << "Podaj nazwe pliku, do ktorego chcesz zapisac gre (pamietaj o rozszerzeniu .txt)" << "\n";
+	string nazwa_pliku; 
 	getline(cin, nazwa_pliku);
 	//zapiszGreDoPliku(nazwa_pliku, pierwsza_tura);
 	usunListe(pierwsza_tura);
@@ -144,7 +145,7 @@ int pobierzZnak(int zakres_dolny, int zakres_gorny)
 void kliknijAbyPrzejscDalej() 
 {
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Wcisnij dowolny przycisk, aby przejsc dalej..." << endl;
+	cout << "Wcisnij dowolny przycisk, aby przejsc dalej..." << "\n";
 	_getch();
 }
 void czyscEkran() 
@@ -155,15 +156,16 @@ void zakonczProgram()
 {
 	czyscEkran();
 	SetConsoleTextAttribute(Kolor, 4);
-	cout << "MENU KONCOWE" << endl << endl;
+	cout << "MENU KONCOWE" << "\n" << "\n";
 	SetConsoleTextAttribute(Kolor, 3);
-	cout << "Dziekuje za uzywanie mojego programu" << endl;
-	cout << "Jezeli chcialbys znowu zagrac w Gomoku, wcisnij 1" << endl;
-	cout << "Kazdy inny przycisk spowoduje zamkniecie programu" << endl;
+	cout << "Dziekuje za uzywanie mojego programu" << "\n";
+	cout << "Jezeli chcialbys znowu zagrac w Gomoku, wcisnij 1" << "\n";
+	cout << "Kazdy inny przycisk spowoduje zamkniecie programu" << "\n";
 	SetConsoleTextAttribute(Kolor, 7);
-	cout << "Wcisnij przycisk..." << endl;
+	cout << "Wcisnij przycisk..." << "\n";
 	if (_getch() == '1')
 		menuGlowne();
+	return;
 }
 char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gracz)
 {
@@ -176,7 +178,7 @@ char poruszaniePoPlanszy(char **&tab, int rozmiar, int &aktx, int &akty, char gr
 		pomocnicza[aktx][akty] = '#';
 	wyswietlPlansze(pomocnicza, rozmiar);
 	SetConsoleTextAttribute(Kolor, 2);
-	cout << endl << "Sterowanie" << setw(3) << ' ' << "Esc - Zakoncz rozgrywke"  << setw(3) << ' ' << "Strzalki - Poruszanie kursora"  << setw(3) << ' ' << "Enter - Zatwierdz ruch" << endl;
+	cout << "\n" << "Sterowanie" << setw(3) << ' ' << "Esc - Zakoncz rozgrywke"  << setw(3) << ' ' << "Strzalki - Poruszanie kursora"  << setw(3) << ' ' << "Enter - Zatwierdz ruch" << "\n";
 	kasujPlansze(pomocnicza, rozmiar);
 	int polecenie = _getch();	
 	if (polecenie == 27)
@@ -218,7 +220,7 @@ void wyswietlPlansze(char **tab, int rozmiar)
 	SetConsoleTextAttribute(Kolor, 6);
 	for (int i = 0; i < rozmiar + 2; i++)
 		cout << setw(2) << '#';
-	cout << endl;
+	cout << "\n";
 	for (int i = 0; i < rozmiar; i++)
 	{
 		cout << setw(2) << '#';
@@ -239,27 +241,27 @@ void wyswietlPlansze(char **tab, int rozmiar)
 				SetConsoleTextAttribute(Kolor, 8);
 		}
 		SetConsoleTextAttribute(Kolor, 6);
-		cout << setw(2) << '#' << endl;
+		cout << setw(2) << '#' << "\n";
 	}
 	for (int i = 0; i < rozmiar + 2; i++)
 		cout << setw(2) << '#';
-	cout << endl;
+	cout << "\n";
 }
 void komunikatBladOtwarciaPliku() 
 {
 	SetConsoleTextAttribute(Kolor, 4);
-	cout << "Blad otwarcia pliku!" << endl;
+	cout << "Blad otwarcia pliku!" << "\n";
 	kliknijAbyPrzejscDalej();
 }
 void komunikatRezultat(char rezultat) 
 {
 	SetConsoleTextAttribute(Kolor, 6);
 	if (rezultat != 'R')
-		cout << "Wygrywa gracz " << rezultat << '!' << endl;
+		cout << "Wygrywa gracz " << rezultat << '!' << "\n";
 	if (rezultat == 'R')
-		cout << "Remis!" << endl;
+		cout << "Remis!" << "\n";
 	SetConsoleTextAttribute(Kolor, 2);
-	cout << "Aby zakonczyc rozgrywke wcisnij Escape" << endl;
+	cout << "Aby zakonczyc rozgrywke wcisnij Escape" << "\n";
 	int polecenie = _getch();	
 	while (polecenie != 27)
 	{
