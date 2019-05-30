@@ -1,3 +1,10 @@
+/**
+ * \file interfejs.cpp
+ * \brief Plik implementacji modu³u interfejs
+ *
+ * Modu³ interfejs zawiera metody s³u¿¹ce do komunikacji programu z u¿ytkownikiem i na odwrót
+ */
+
 #include <iostream>
 #include "interfejs.h"
 #include <Windows.h>
@@ -7,8 +14,13 @@
 #include "plansza.h" 
 #include "rozgrywka.h"
 #include <iomanip>
+#include <chrono>
 using namespace std;
+
+/// Ograniczona wartoœæ maksymalnego rozmiaru planszy do gry, gdy¿ wiêksze plansze nieczytelnie drukuj¹ siê w zmaksymalizowanej konsoli
 const int MAX = 55;
+
+/// S³u¿y do pobrania uchwytu do wyjœcia konsoli, aby móc zmieniaæ kolory tekstu tam wyœwietlanego
 HANDLE Kolor;
 
 void menuStart() 
@@ -77,7 +89,7 @@ void menuPrzedGra()
 		SetConsoleTextAttribute(Kolor, 2);
 		cout << "1. Latwy" << "\n";
 		cout << "2. Sredni" << "\n";
-		cout << "3. Trudny" << "\n";
+		cout << "3. Trudny (mozliwe rozgrywki tylko na planszy 3v3)" << "\n";
 		trudnosc = pobierzZnak(1, 3);
 	}
 	czyscEkran();
@@ -97,8 +109,12 @@ void menuPrzedGra()
 	cout << "Wybrano tryb nr " << tryb << "\n" << "Ilosc pol z rzedu: " << pod_rzad << "\n" << "Rozmiar planszy: " << rozmiar << "\n";
 	SetConsoleTextAttribute(Kolor, 7);
 	cout << "Jezeli chcesz zmienic swoj wybor kliknij 1. Kazdy inny przycisk spowoduje przejscie do rozgrywki..." << "\n";
-	if (_getch() == '1')
+	if (_getch() == '1') {
 		menuPrzedGra();
+		return;
+	}
+	if (trudnosc == 3)
+		rozmiar = pod_rzad = 3;
 	switch (tryb) 
 	{
 	case 1:
@@ -112,7 +128,7 @@ void menuPrzedGra()
 		break;
 	}
 }
-void menuZapisu(Tura *pierwsza_tura) 
+/*void menuZapisu(Tura *pierwsza_tura) 
 {
 	czyscEkran();
 	cout << "Czy chcesz zapisaæ rozgrywke do pliku? Jezeli tak, to wcisnij 1." << "\n";
@@ -126,7 +142,7 @@ void menuZapisu(Tura *pierwsza_tura)
 	usunListe(pierwsza_tura);
 	zakonczProgram();
 }
-
+*/
 int pobierzZnak(int zakres_dolny, int zakres_gorny) 
 {
 	int znak;
@@ -267,4 +283,9 @@ void komunikatRezultat(char rezultat)
 	{
 		polecenie = _getch();
 	}
+}
+
+void wyswietlIlosciWywolan(int ilosc, int ilosc_finalnych)
+{
+	cout << "Ilosc wywowlan funkcji: " << ilosc << "\t Ilosc rozpatrzonych gier: " << ilosc_finalnych << '\n';
 }

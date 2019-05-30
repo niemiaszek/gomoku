@@ -1,10 +1,17 @@
+/**
+ * \file lista.cpp
+ * \brief Plik implementacji modu³u lista
+ *
+ * Modu³ lista zawiera definicje struktur u¿ywanych jako elementy list oraz metod wykorzystywanych na listach
+ */
+
 #include <iostream>
 #include "lista.h"
 #include "stan.h"
 #include "plansza.h"
 using namespace std;
 
-void dodajDoListy(Tura *&aktualna_tura, char **tab) 
+/*void dodajDoListy(Tura *&aktualna_tura, char **tab) 
 {
 	if (aktualna_tura == NULL)
 	{
@@ -32,7 +39,7 @@ void usunListe(Tura *&pierwsza_tura)
 		pierwsza_tura = pierwsza_tura ->next;
 		delete tmp;
 	}
-}
+}*/
 void usunListe(Ruch *&wykonywalne_ruchy)
 {	
 	if (wykonywalne_ruchy == NULL)
@@ -56,6 +63,7 @@ void usunListe(Ruch *&wykonywalne_ruchy)
 		//cout << wykonywalne_ruchy;;
 	}
 }
+
 void pobierzWykonywalneRuchy(Ruch *&wykonywalne_ruchy, char **tab, int rozmiar)
 {
 	for (int i = 0; i < rozmiar; i++) {

@@ -1,3 +1,10 @@
+/**
+ * \file pliki.cpp
+ * \brief Plik implementacji modu³u plansza
+ *
+ * Modu³ pliki ten s³u¿y do przeprowadzania operacji na plikach
+ */
+
 #include <iostream>
 #include <fstream>
 #include "pliki.h"
@@ -26,8 +33,9 @@ void wyswietlTekstZPliku(string nazwa_pliku)
 	kliknijAbyPrzejscDalej();
 	menuGlowne();
 }
+/*
 void zapiszGreDoPliku(string nazwa_pliku, Tura* pierwsza_tura) 
-{/*
+{
 	ofstream plik(nazwa_pliku.c_str(), ios::app);
 	while (pierwsza_tura != NULL) {
 		if (pierwsza_tura->plansza != NULL)
@@ -46,5 +54,5 @@ void zapiszGreDoPliku(string nazwa_pliku, Tura* pierwsza_tura)
 		if (tmp->plansza != NULL)
 			();
 	}
-	*/
 }
+*/

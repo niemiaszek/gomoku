@@ -1,3 +1,10 @@
+/**
+ * \file sztuczna_inteligencja.cpp
+ * \brief Plik implementacji modu³u sztuczna_inteligencja
+ *
+ * Modu³ sztuczna_inteligencja definiuje ró¿ne poziomy trudnoœci komputera
+ */
+
 #include "sztuczna_inteligencja.h"
 #include <iostream>
 #include "plansza.h"
@@ -10,7 +17,7 @@
 #include <algorithm>
 #include "interfejs.h"
 using namespace std;
-void latwy(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik, Ruch*& wykonywalne_ruchy) //sprawdza sie dobrze jedynie przy planszy 3v3, wszedzie indziej jest losowy 
+void latwy(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik, Ruch*& wykonywalne_ruchy) //sprawdza sie dobrze jedynie przy planszy 3v3, wszedzie indziej jest za bardzo losowy 
 {
 	int sumka;
 	char** pomocnicza;
@@ -81,7 +88,7 @@ void latwy(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik, 
 	usunRuch(wykonywalne_ruchy, komputerx, komputery);
 	kasujPlansze(pomocnicza, rozmiar);
 }
-void sredni(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik, Ruch * &wykonywalne_ruchy) //sredni poziom przeciwnika. Latwy do oszukania i pokonania, kiedy zna sie algorytm jego dzialania
+void sredni(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik, Ruch * &wykonywalne_ruchy) 
 {
 	int* najlepszy_x = new int, * najlepszy_y = new int, * najlepszy = new int; // Deklarowanie poczatkowych wskaznikow na wspolrzedne ruchu o najwiekszej sumie i o najwiekszym wyniku 
 	*najlepszy = *najlepszy_x = *najlepszy_y = 0;
@@ -126,14 +133,12 @@ void trudny(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik,
 	utworzPomocznicza(tab, plansza, rozmiar);
 	wezel->plansza = plansza;
 	int alfa = INT_MIN;
-	int beta = INT_MAX;;
+	int beta = INT_MAX;
 	int ilosc = 0;
 	int ilosc_finalnych = 0;
 	wezel->wartosc = minimax(wezel, glebokosc, alfa, beta, true, rozmiar, pod_rzad, gracz, przeciwnik, ilosc, ilosc_finalnych);
 	//cout << "wartosc: " << wezel->wartosc << "\n";
-#ifdef _DEBUG
-	cout << "TO ILOSC: " << ilosc << " A TO ILOSC FINALNYCH STANOW: " << ilosc_finalnych << endl;
-#endif // _DEBUG
+	wyswietlIlosciWywolan(ilosc, ilosc_finalnych);
 	Dzieci* akt = wezel->dzieci;
 	Ruch *lista_do_losowania=NULL;
 	int licznik = 0;
@@ -165,7 +170,6 @@ void trudny(char**& tab, int rozmiar, int pod_rzad, char gracz, char przeciwnik,
 	}
 	kasujPlansze(wezel->plansza, rozmiar);
 	delete wezel;
-	//usunDrzewo(wezel);
 }
 int minimax(Pozycja * &aktualna_pozycja, int glebokosc, int& alfa, int& beta, bool gracz_tury, int rozmiar, int pod_rzad, char gracz, char przeciwnik, int &ilosc, int &ilosc_finalnych)
 {
@@ -202,22 +206,19 @@ int minimax(Pozycja * &aktualna_pozycja, int glebokosc, int& alfa, int& beta, bo
 			ocena = przewaga_gracza;
 		}*/
 		//wyswietlPlansze(aktualna_pozycja->plansza, rozmiar);
-		int ocena = ocenaStanu(aktualna_pozycja->plansza, rozmiar, pod_rzad, gracz)/2;
+		int ocena = ocenaStanu(aktualna_pozycja->plansza, rozmiar, pod_rzad, gracz);
 		if (ocena > 0)
 			ocena += glebokosc;
 		else ocena -= glebokosc;
 		//kasujPlansze(aktualna_pozycja->plansza, rozmiar);
 		//delete aktualna_pozycja;*/
 		if (stan == 'R')
-				ocena= 0;
-		//cout << ocena << "\n";
+				ocena = 0;
+		//cout << ocena << "\n"; //<< "alfa: " << alfa << " beta: " << beta << "\n";
 
 
 		return ocena;
 	}
-	char znak_syna = gracz;
-	if (gracz_tury == true)
-		znak_syna = przeciwnik;
 	Ruch * ruchy = NULL;
 	pobierzWykonywalneRuchy(ruchy, aktualna_pozycja->plansza, rozmiar);
 	if (gracz_tury == true)
@@ -228,17 +229,21 @@ int minimax(Pozycja * &aktualna_pozycja, int glebokosc, int& alfa, int& beta, bo
 			Pozycja* syn;
 			utworzSyna(ruchy, aktualna_pozycja, syn, rozmiar, gracz);
 			ilosc++;
+			//wyswietlPlansze(syn->plansza, rozmiar);
+			//cout << "Beta: " << beta << " alfa: " << tmp << "\n";
 			syn->wartosc = minimax(syn, glebokosc - 1, alfa, beta, false, rozmiar, pod_rzad, gracz, przeciwnik, ilosc, ilosc_finalnych);
 			//cout << "Wartosc syna dla true: " << syn->wartosc << "\n";
-			//wyswietlPlansze(syn->plansza, rozmiar);
 			aktualna_pozycja->wartosc = max(aktualna_pozycja->wartosc, syn->wartosc);
-			alfa = max(alfa, syn->wartosc);
-			//cout << "beta: " << beta << " alfa: " << alfa << "\n";
+			//alfa = max(alfa, syn->wartosc);
+			//wyswietlPlansze(syn->plansza, rozmiar);
+			//cout << "alfa: " << alfa << " beta: " << beta << "\n";
 			//cout << "Syn x, y: " << syn->x << ' ' << syn->y << "\n";
 			//wypiszWykonywalneRuchy(ruchy);
 			//if (beta <= alfa)
 				//break;
 		}
+		//cout << "Wartosc tej pozycji(MAX): " << aktualna_pozycja->wartosc << "alfa: " << tmp << " beta: " << beta << "\n";
+		return aktualna_pozycja->wartosc;
 		//wyswietlPlansze(aktualna_pozycja->plansza, rozmiar);
 		//cout << "Wartoœæ tej planszy dla true: " << aktualna_pozycja->wartosc << "\n";
 	}
@@ -250,18 +255,23 @@ int minimax(Pozycja * &aktualna_pozycja, int glebokosc, int& alfa, int& beta, bo
 			Pozycja* syn;
 			utworzSyna(ruchy, aktualna_pozycja, syn, rozmiar, przeciwnik);
 			ilosc++;
-			syn->wartosc = minimax(syn, glebokosc - 1, alfa, beta, true, rozmiar, pod_rzad, gracz, przeciwnik, ilosc, ilosc_finalnych	);
-			//cout << "Wartosc syna dla false: " << syn->wartosc << "\n";
 			//wyswietlPlansze(syn->plansza, rozmiar);
+			//cout << "beta: " << tmp << " alfa: " << alfa << "\n";
+			syn->wartosc = minimax(syn, glebokosc - 1, alfa, beta, true, rozmiar, pod_rzad, gracz, przeciwnik, ilosc, ilosc_finalnych);
+			//cout << "Wartosc syna dla false: " << syn->wartosc << "\n";
 			aktualna_pozycja->wartosc = min(aktualna_pozycja->wartosc, syn->wartosc);
-			beta = min(beta, syn->wartosc);
+			//beta = min(beta, syn->wartosc);
+			//wyswietlPlansze(syn->plansza, rozmiar);
+			//cout << "alfa: " << alfa << " beta: " << beta << "\n";
 			//if (beta <= alfa)
 				//break;
 		}
+		//cout << "Wartosc tej pozycji(MIN): " << aktualna_pozycja->wartosc << "alfa: " << alfa << " beta: " << tmp << "\n";
+		return aktualna_pozycja->wartosc;
 		//wyswietlPlansze(aktualna_pozycja->plansza, rozmiar);
 		//cout << "Wartoœæ tej planszy dla false: " << aktualna_pozycja->wartosc << "\n";
 	}
-	if (aktualna_pozycja->ojciec != NULL)
+	if (aktualna_pozycja->ojciec != NULL) // Usuwanie wêz³a z dzieæmi
 		while (aktualna_pozycja->dzieci != NULL)
 		{
 			Dzieci* tmp = aktualna_pozycja->dzieci;
@@ -273,5 +283,4 @@ int minimax(Pozycja * &aktualna_pozycja, int glebokosc, int& alfa, int& beta, bo
 			tmp = NULL;
 		}
 
-	return aktualna_pozycja->wartosc;
 }

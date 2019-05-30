@@ -1,3 +1,10 @@
+/**
+ * \file plansza.cpp
+ * \brief Plik implementacji modu³u plansza
+ *
+ * Modu³ plansza zawiera metody wykorzystywane do operowania plansz¹ (tablic¹ dwuwymiarow¹ typu char **)
+ */
+
 #include "plansza.h"
 #include "interfejs.h"
 #include <iostream>
@@ -6,9 +13,11 @@
 #include "lista.h"
 #include <windows.h>
 #include "rozgrywka.h"
+#include <vector>
+
 using namespace std;
 
-void utworzPlansze(char **&tab, int rozmiar) // funkcja do tworzenia tablicy dynamicznej
+void utworzPlansze(char **&tab, int rozmiar)
 {
 	tab = new char*[rozmiar];
 	for (int i = 0; i < rozmiar; i++)

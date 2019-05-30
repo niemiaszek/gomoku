@@ -1,3 +1,10 @@
+/**
+ * \file rozgrywka.cpp
+ * \brief Plik implementacji modu³u rozgrywka
+ *
+ * Modu³ rozgrywka s³u¿y do symulacji partii w kó³ko i krzy¿yk i definiuje dzia³anie trybów gry
+ */
+
 #include "rozgrywka.h"
 #include "plansza.h"
 #include "interfejs.h"
@@ -33,7 +40,7 @@ void graczvsgracz(int rozmiar, int pod_rzad)
 			komunikatRezultat('R');
 			break;
 		}
-		cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
+		//cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
 		kliknijAbyPrzejscDalej();
 		char o = ruchGracza(tab, rozmiar, 'o', aktx, akty);
 		if (o == 'E')
@@ -50,7 +57,7 @@ void graczvsgracz(int rozmiar, int pod_rzad)
 			komunikatRezultat('R');
 			break;
 		}
-		cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
+		//cout << ocenaStanu(tab, rozmiar, pod_rzad, 'x') << "\n";
 		kliknijAbyPrzejscDalej();
 	}
 	zakonczRozgrywke(tab, rozmiar);
@@ -132,6 +139,12 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 	utworzPlansze(tab, rozmiar);
 	wyswietlPlansze(tab, rozmiar);
 	if (Ruchy == NULL) pobierzWykonywalneRuchy(Ruchy, tab, rozmiar);
+	if (trudnosc == 2)
+	{
+		tab[rozmiar / 2][rozmiar / 2] = 'o'; // uproszczenie pierwszego ruchu
+		czyscEkran();
+		wyswietlPlansze(tab, rozmiar);
+	}
 	kliknijAbyPrzejscDalej();
 	while (true) {
 		czyscEkran();
@@ -144,7 +157,7 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 			sredni(tab, rozmiar, pod_rzad, 'x', 'o', Ruchy);
 			break;
 		case 3:
-			trudny(tab, rozmiar, pod_rzad, 'x', 'o', 10);
+			trudny(tab, rozmiar, pod_rzad, 'x', 'o', 9);
 			break;
 		}
 		auto end = chrono::steady_clock::now();
