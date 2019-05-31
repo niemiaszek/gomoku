@@ -138,13 +138,13 @@ void komputervskomputer(int rozmiar, int pod_rzad, int trudnosc)
 	int suma;
 	utworzPlansze(tab, rozmiar);
 	wyswietlPlansze(tab, rozmiar);
-	if (Ruchy == NULL) pobierzWykonywalneRuchy(Ruchy, tab, rozmiar);
 	if (trudnosc == 2)
 	{
 		tab[rozmiar / 2][rozmiar / 2] = 'o'; // uproszczenie pierwszego ruchu
 		czyscEkran();
 		wyswietlPlansze(tab, rozmiar);
 	}
+	if (Ruchy == NULL) pobierzWykonywalneRuchy(Ruchy, tab, rozmiar);
 	kliknijAbyPrzejscDalej();
 	while (true) {
 		czyscEkran();
